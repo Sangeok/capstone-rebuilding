@@ -14,5 +14,19 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        Int   @id @default(autoincrement())
+  facilitys facilitys[]
+}
+
+model facilitys {
+  id      Int   @id @default(autoincrement())
+  SIGUN_CD     String
+  SIGUN_NM   String
+  BIZPLC_NM     String
+  REFINE_ROADNM_ADDR     String
+  REFINE_LOTNO_ADDR   String
+  REFINE_ZIP_CD      String
+  REFINE_WGS84_LAT  String
+  REFINE_WGS84_LOGT     String
+  user User[]
 }
