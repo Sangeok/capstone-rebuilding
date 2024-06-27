@@ -1,11 +1,15 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Footer from './components/Footer';
+import Home from './components/Home';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
-    <div>
-      <h1>React App</h1>
+    <div className="flex flex-col h-screen">
+      <NavBar />
+      <div className="flex-1">
+        <Home />
+      </div>
+      <Footer />
     </div>
   );
 }
