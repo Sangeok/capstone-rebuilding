@@ -7,6 +7,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import Login from './pages/Login';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
+import KakaoAuth from './pages/KakaoAuth';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route path="/" element={<Home />}/>
       <Route path="/login" element={<Login />}/>
+      <Route path="/login/oauth2/callback/kakao" element={<KakaoAuth/>}/>
     </Route>
   )
 )
