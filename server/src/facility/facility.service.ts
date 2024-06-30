@@ -17,7 +17,7 @@ export class FacilityService {
     }
 
     private async saveFacility(facility: any, nameField: string) {
-        await this.prismaService.facilitys.create({
+        await this.prismaService.facility.create({
             data: {
                 SIGUN_CD: this.handleNullValue(facility.SIGUN_CD),
                 SIGUN_NM: this.handleNullValue(facility.SIGUN_NM),

@@ -14,12 +14,13 @@ datasource db {
 }
 
 model User {
-  id        Int   @id @default(autoincrement())
-  facilitys facilitys[]
+  id        String   @id @default(uuid())
+  nickname String
+  facilitys Facility[]
 }
 
-model facilitys {
-  id      Int   @id @default(autoincrement())
+model Facility {
+  id      String   @id @default(uuid())
   SIGUN_CD     String
   SIGUN_NM   String
   BIZPLC_NM     String

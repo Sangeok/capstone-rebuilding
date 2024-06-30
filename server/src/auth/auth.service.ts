@@ -1,25 +1,60 @@
+import { PrismaService } from './../../prisma/prisma.service';
 import axios from 'axios';
 import { Injectable, Query } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
+  constructor(
+    private PrismaService: PrismaService,
+    private jwtService: JwtService
+  ) {}
     async getKakaoUserInfo(
         @Query('code') code: string
     ) {
         try {
-            // 1. 액세스 토큰 받기
             const tokenResponse = await this.getKakaoToken(code);
       
-            // 2. 사용자 정보 가져오기
             const userInfo = await this.getKakaoUserProfile(tokenResponse.data.access_token);
+
+            let user = await this.findUser(userInfo.data.id.toString());
+
+            if(!user) {
+                user = await this.PrismaService.user.create({
+                    data: {
+                        id: userInfo.data.id.toString(),
+                        nickname: userInfo.data.properties.nickname,
+                    }
+                })
+            }
+
+            const userPayload = { id: user.id, nickname: user.nickname };
+            const accessToken = this.jwtService.sign(userPayload);
+            
             const userInfoData = {
-                userInfo: userInfo.data,
-                kakaoAccessToken: tokenResponse.data.access_token,
+                id: user.id,
+                nickname: user.nickname,
+                accessToken: accessToken,
             }
             return userInfoData;
         } catch(err) {
             console.error(err);
         }
+    }
+
+    private async findUser(id: string) {
+      try {
+        const user = await this.PrismaService.user.findUnique({
+          where: {
+              id
+          }
+        });
+
+        return user;
+      } catch(error) {
+        console.error('Error finding user:', error);
+        return null;
+      }
     }
 
     private async getKakaoToken(code: string) {

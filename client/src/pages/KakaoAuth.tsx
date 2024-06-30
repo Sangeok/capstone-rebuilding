@@ -2,15 +2,15 @@ import { ConstructionOutlined } from "@mui/icons-material";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { userStore } from "../store/user-store";
 
 export default function KakaoAuth() {
+    const { userInfo, setUserInfo } = userStore();
     const effectRan = useRef(false);
     const navigate = useNavigate();
     const [accessTokenFetching, setAccessTokenFetching] = useState<boolean>(false);
 
     const KAKAO_CODE : string | null = new URL(window.location.href).searchParams.get("code");
-
-    console.log("KAKAO_CODE : " + KAKAO_CODE);
 
     const getAccessToken = async () => {
         if(accessTokenFetching) return;
@@ -32,6 +32,16 @@ export default function KakaoAuth() {
                 localStorage.setItem("accessToken", res.data.kakaoAccessToken);
                 
                 setAccessTokenFetching(false);
+                let userData = {
+                    id : res.data.id,
+                    isLogin : true,
+                    nickname : res.data.nickname,
+                    facilitys : res.data.facilitys,
+                    accessToken : res.data.kakaoAccessToken
+                }
+
+                setUserInfo(userData);
+                console.log(userData.isLogin)
                 navigate("/");
 
             })
