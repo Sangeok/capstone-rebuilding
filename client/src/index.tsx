@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import KakaoAuth from './pages/KakaoAuth';
+import SearchingFacilityPage from './pages/SearchingFailictyPage';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<Home />}/>
       <Route path="/login" element={<Login />}/>
       <Route path="/login/oauth2/callback/kakao" element={<KakaoAuth/>}/>
+      <Route path="/Searching" element={<SearchingFacilityPage/>}/>
     </Route>
   )
 )

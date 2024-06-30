@@ -17,7 +17,7 @@ export default function KakaoAuth() {
 
         try{
             setAccessTokenFetching(true);
-            const response = await axios.get(
+            await axios.get(
                 "http://localhost:3005/auth/kakao/callback",
                 {
                     params: {
@@ -37,11 +37,10 @@ export default function KakaoAuth() {
                     isLogin : true,
                     nickname : res.data.nickname,
                     facilitys : res.data.facilitys,
-                    accessToken : res.data.kakaoAccessToken
+                    accessToken : res.data.accessToken,
                 }
 
                 setUserInfo(userData);
-                console.log(userData.isLogin)
                 navigate("/");
 
             })

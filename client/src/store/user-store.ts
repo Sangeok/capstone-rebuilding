@@ -17,12 +17,14 @@ interface UserType {
     isLogin : boolean;
     nickname : string;
     facilitys : Facility[];
+    myLocation? : string;
     accessToken : string;
 }
 
 interface UserStoreType {
     userInfo : UserType;
     setUserInfo : (userInfo : UserType) => void;
+    setMyLocation : (myLocation : string) => void;
 }
 
 const defaultUserState = {
@@ -30,10 +32,23 @@ const defaultUserState = {
     isLogin : false,
     nickname : "",
     facilitys : [],
+    myLocation : "",
     accessToken : "",
 }
 
 export const userStore = create<UserStoreType>((set) => ({
     userInfo : defaultUserState,
-    setUserInfo : (userInfo : UserType) => {set({userInfo})},
+    setUserInfo: (newUserInfo: UserType) => {
+        set((state) => ({
+            userInfo: {
+                ...newUserInfo,
+                myLocation: state.userInfo.myLocation
+            }
+        }))
+    },
+    setMyLocation: (myLocation: string) => {
+        set((state) => ({
+            userInfo: { ...state.userInfo, myLocation }
+        }))
+    }
 }));
