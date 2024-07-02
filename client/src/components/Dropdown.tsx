@@ -21,6 +21,10 @@ const DropDownContainer = styled.div`
   border-color: rgb(0 0 0);
   border-radius: 0.75rem;
   padding: 30px;
+  &:hover {
+    cursor: pointer;
+    background-color: #f9f9f9;
+  }
 `;
 
 interface DropdownProps {

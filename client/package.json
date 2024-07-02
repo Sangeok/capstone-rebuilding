@@ -55,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "kakao.maps.d.ts": "^0.1.40",
     "tailwindcss": "^3.4.4"
   }
 }

@@ -10,6 +10,7 @@ import Home from './components/Home';
 import KakaoAuth from './pages/KakaoAuth';
 import SearchingFacilityPage from './pages/SearchingFailictyPage';
 import { PrimeReactProvider } from 'primereact/api';
+import Detail from './pages/Detail';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<Login />}/>
       <Route path="/login/oauth2/callback/kakao" element={<KakaoAuth/>}/>
       <Route path="/Searching" element={<SearchingFacilityPage/>}/>
+      <Route path="/Searching/:id" element={<Detail/>}/>
     </Route>
   )
 )

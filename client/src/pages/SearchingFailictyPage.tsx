@@ -18,8 +18,8 @@ export default function SearchingFacilityPage() {
     } = useFacilities(selectedCity);
 
     return (
-        <div className="relative flex flex-col h-screen pt-16">
-            <div className="absolute inset-0 bg-slate-400 mt-[108px] ">
+        <div className="relative flex flex-col h-screen pt-9">
+            <div className="absolute inset-0 bg-slate-400 mt-[80px] ">
             </div>
             <div className="relative z-10 flex flex-col h-full">
                 <div className="flex justify-center min-w-full">

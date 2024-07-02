@@ -16,12 +16,12 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
     const pageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
     return (
-        <div className="flex justify-center mt-2 mb-2">
+        <div className="flex h-full items-end justify-center mt-2 mb-2">
             {pageNumbers.map(number => (
                 <button
                     key={number}
                     onClick={() => onPageChange(number)}
-                    className={`mx-1 px-3 py-1 border ${currentPage === number ? 'bg-blue-500 text-white' : 'bg-white'}`}
+                    className={`mx-1 max-w-10 px-3 py-1 border ${currentPage === number ? 'bg-blue-500 text-white' : 'bg-white'}`}
                 >
                     {number}
                 </button>

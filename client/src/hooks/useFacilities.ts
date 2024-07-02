@@ -10,8 +10,6 @@ export default function useFacilities(selectedCity: string) {
     const [currentPage, setCurrentPage] = useState(1);
     const facilitiesPerPage = 3;
 
-    console.log(userInfo);
-
     const fetchFacilities = async () => {
         try {
             const response = await axios.get("http://localhost:3005/facility");
@@ -34,7 +32,7 @@ export default function useFacilities(selectedCity: string) {
             ...facility,
             distance: userInfo?.myLat !== undefined && userInfo?.myLng !== undefined
                 ? getDistance(userInfo.myLat, userInfo.myLng, Number(facility.REFINE_WGS84_LAT), Number(facility.REFINE_WGS84_LOGT))
-                : 0 // Provide a default value here, such as 0
+                : 0
         }));
 
         const sortedFacilities = facilitiesWithDistance.sort((a, b) => a.distance - b.distance);
@@ -55,9 +53,7 @@ export default function useFacilities(selectedCity: string) {
     const indexOfFirstFacility = indexOfLastFacility - facilitiesPerPage;
     const currentFacilities = wantFacility.slice(indexOfFirstFacility, indexOfLastFacility);
     const totalPages = Math.ceil(wantFacility.length / facilitiesPerPage);
-
-    console.log(currentFacilities);
-
+    
     return {
         facilities,
         wantFacility,
