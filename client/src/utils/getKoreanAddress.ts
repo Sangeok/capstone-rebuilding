@@ -1,5 +1,5 @@
 export async function getKoreanAddress(latitude: number, longitude: number): Promise<string> {
-    const apiKey = "c86103adb6cf48e93aa6ce698c7b077f"  // 여기에 발급받은 API 키를 입력하세요
+    const apiKey = process.env.REACT_APP_KAKAO_REST_API_KEY; // 여기에 발급받은 API 키를 입력하세요
     const url = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${longitude}&y=${latitude}`;
     
     try {

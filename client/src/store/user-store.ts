@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface Facility {
+export interface Facility {
     id : string;
     SIGUN_CD : string;
     SIGUN_NM : string;
@@ -10,6 +10,7 @@ interface Facility {
     REFINE_ZIP_CD : string;
     REFINE_WGS84_LAT : string;
     REFINE_WGS84_LOGT : string;
+    distanceWithUser? : number;
 }
 
 interface UserType {
@@ -17,8 +18,10 @@ interface UserType {
     isLogin : boolean;
     nickname : string;
     facilitys : Facility[];
-    myLocation? : string;
     accessToken : string;
+    myLocation? : string;
+    myLat? : number;
+    myLng? : number;
 }
 
 interface UserStoreType {
@@ -50,5 +53,11 @@ export const userStore = create<UserStoreType>((set) => ({
         set((state) => ({
             userInfo: { ...state.userInfo, myLocation }
         }))
+    },
+    setMyLatLong: (myLat: number, myLng: number) => {
+        set((state) => ({
+            userInfo: { ...state.userInfo, myLat, myLng }
+        }))
     }
+
 }));

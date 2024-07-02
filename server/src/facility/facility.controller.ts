@@ -5,6 +5,11 @@ import { FacilityService } from './facility.service';
 export class FacilityController {
     constructor(private readonly facilityService: FacilityService) {}
 
+    @Get()
+    async getFacilities() {
+        return this.facilityService.getFacilities();
+    }
+
     @Get('fetch-and-save')
     async fetchAndSaveFacilities() {
         return this.facilityService.fetchAndSaveFacilities();

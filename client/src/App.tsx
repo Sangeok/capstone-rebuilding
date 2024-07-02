@@ -13,6 +13,8 @@ function App() {
   const getMyLocation = async () => {
     try {
       const latAndLong = await getGeoLocation();
+      userInfo.myLat = latAndLong.latitude;
+      userInfo.myLng = latAndLong.longitude;
       const myLocation = await getKoreanAddress(latAndLong.latitude, latAndLong.longitude);
       setMyLocation(myLocation);
     } catch (error) {

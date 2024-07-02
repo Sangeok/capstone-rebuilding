@@ -49,4 +49,8 @@ export class FacilityService {
             return { message: 'Failed to fetch facilities data' };
         }
     }
+
+    async getFacilities() {
+        return this.prismaService.facility.findMany();
+    }
 }

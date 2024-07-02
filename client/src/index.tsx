@@ -9,6 +9,7 @@ import NavBar from './components/NavBar';
 import Home from './components/Home';
 import KakaoAuth from './pages/KakaoAuth';
 import SearchingFacilityPage from './pages/SearchingFailictyPage';
+import { PrimeReactProvider } from 'primereact/api';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
