@@ -2,6 +2,8 @@ import { PrismaService } from './../../prisma/prisma.service';
 import axios from 'axios';
 import { Injectable, Query } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
+import { UserWithWishList } from 'type';
 
 @Injectable()
 export class AuthService {
@@ -17,15 +19,19 @@ export class AuthService {
       
             const userInfo = await this.getKakaoUserProfile(tokenResponse.data.access_token);
 
-            let user = await this.findUser(userInfo.data.id.toString());
+            let user: UserWithWishList | null = await this.findUser(userInfo.data.id.toString());
+
+            console.log('user:', user);
 
             if(!user) {
                 user = await this.PrismaService.user.create({
                     data: {
                         id: userInfo.data.id.toString(),
                         nickname: userInfo.data.properties.nickname,
-                    }
+                    },
+                    include: { wishList: true }
                 })
+                console.log(user);
             }
 
             const userPayload = { id: user.id, nickname: user.nickname };
@@ -35,21 +41,24 @@ export class AuthService {
                 id: user.id,
                 nickname: user.nickname,
                 accessToken: accessToken,
+                ...(user.wishList && { wishList: user.wishList })
             }
+
             return userInfoData;
         } catch(err) {
             console.error(err);
         }
     }
 
-    private async findUser(id: string) {
+    private async findUser(id: string): Promise<UserWithWishList | null> {
       try {
         const user = await this.PrismaService.user.findUnique({
-          where: {
-              id
-          }
+          where: { id },
+          include: { wishList: true }
         });
-
+  
+        console.log(user);
+  
         return user;
       } catch(error) {
         console.error('Error finding user:', error);

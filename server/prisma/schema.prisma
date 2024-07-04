@@ -16,7 +16,7 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   nickname String
-  facilitys Facility[]
+  wishList WishList[]
 }
 
 model Facility {
@@ -29,5 +29,16 @@ model Facility {
   REFINE_ZIP_CD      String
   REFINE_WGS84_LAT  String
   REFINE_WGS84_LOGT     String
-  user User[]
+  LikedNumber Int
+  wishLists WishList[]
+}
+
+model WishList {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  facility   Facility @relation(fields: [facilityId], references: [id])
+  facilityId String
+
+  @@unique([userId, facilityId])
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import axios from "axios";
+import { Facility } from '@prisma/client';
 
 @Injectable()
 export class FacilityService {
@@ -27,6 +28,7 @@ export class FacilityService {
                 REFINE_ZIP_CD: this.handleNullValue(facility.REFINE_ZIP_CD),
                 REFINE_WGS84_LOGT: this.handleNullValue(facility.REFINE_WGS84_LOGT),
                 REFINE_WGS84_LAT: this.handleNullValue(facility.REFINE_WGS84_LAT),
+                LikedNumber : 0
             }
         });
     }
@@ -52,5 +54,66 @@ export class FacilityService {
 
     async getFacilities() {
         return this.prismaService.facility.findMany();
+    }
+
+    async likeFacility(facility: Facility, userId: string) {
+        return this.prismaService.$transaction(async (prisma) => {
+            console.log("facility");
+            console.log(facility);
+    
+            const updatedFacility = await prisma.facility.update({
+                where: {
+                    id: facility.id
+                },
+                data: {
+                    LikedNumber: {
+                        increment: 1
+                    }
+                }
+            });
+    
+            await prisma.wishList.create({
+                data: {
+                    user: {
+                        connect: {
+                            id: userId
+                        }
+                    },
+                    facility: {
+                        connect: {
+                            id: facility.id
+                        }
+                    }
+                }
+            });
+    
+            return updatedFacility;
+        });
+    }
+
+    async unlikeFacility(facility: Facility, userId: string) {
+        return this.prismaService.$transaction(async (prisma) => {
+            const updatedFacility = await prisma.facility.update({
+                where: {
+                    id: facility.id
+                },
+                data: {
+                    LikedNumber: {
+                        decrement: 1
+                    }
+                }
+            });
+    
+            await prisma.wishList.delete({
+                where: {
+                    userId_facilityId: {
+                        userId,
+                        facilityId: facility.id
+                    }
+                }
+            });
+    
+            return updatedFacility;
+        });
     }
 }

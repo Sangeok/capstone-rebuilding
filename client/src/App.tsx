@@ -22,12 +22,15 @@ function App() {
     }
   }
 
+  console.log("userFacilitys")
+  console.log(userInfo.wishList);
+
   useEffect(() => {
     getMyLocation();
   }, [])
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col h-screen">
       <NavBar />
       <div className="flex-grow">
         <Outlet />

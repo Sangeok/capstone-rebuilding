@@ -36,10 +36,10 @@ export default function KakaoAuth() {
                     id : res.data.id,
                     isLogin : true,
                     nickname : res.data.nickname,
-                    facilitys : res.data.facilitys,
+                    wishList : res.data.wishList,
                     accessToken : res.data.accessToken,
+                    LikedNumber : res.data.LikedNumber
                 }
-
                 setUserInfo(userData);
                 navigate("/");
 
