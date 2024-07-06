@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { FacilityService } from './facility.service';
-import { Facility } from '@prisma/client';
+import { Facility, WishList } from '@prisma/client';
 
 @Controller('facility')
 export class FacilityController {
@@ -18,15 +18,20 @@ export class FacilityController {
 
     @Post('like')
     async likeFacility(
-        @Body() data: { facility: Facility; userId: string }
+        @Body() data: { facilityId: string; userId: string }
     ) {
-        return this.facilityService.likeFacility(data.facility, data.userId);
+        return this.facilityService.likeFacility(data.facilityId, data.userId);
     }
 
     @Post('unlike')
     async unlikeFacility(
-        @Body() data: { facility: Facility; userId: string }
+        @Body() data: { facilityId: string; userId: string }
     ) {
-        return this.facilityService.unlikeFacility(data.facility, data.userId);
+        return this.facilityService.unlikeFacility(data.facilityId, data.userId);
+    }
+
+    @Post('wishList')
+    async getWishList(@Body() body: { wishListData: WishList[] }) {
+        return this.facilityService.getWishList(body.wishListData);
     }
 }

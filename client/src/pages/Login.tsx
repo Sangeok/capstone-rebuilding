@@ -1,5 +1,4 @@
 import KakaoLogin from "../components/KakaoLogin";
-import { userStore } from "../store/user-store";
 
 export default function Login() {
     return (

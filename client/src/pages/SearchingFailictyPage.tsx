@@ -8,7 +8,6 @@ import FacilityList from "../components/FacilitysList";
 import Pagination from "../components/Pagination";
 
 export default function SearchingFacilityPage() {
-    const {userInfo} = userStore();
     const [selectedCity, setSelectedCity] = useState<string>("시,군");
     const {
         currentFacilities,

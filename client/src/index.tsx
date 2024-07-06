@@ -11,6 +11,8 @@ import KakaoAuth from './pages/KakaoAuth';
 import SearchingFacilityPage from './pages/SearchingFailictyPage';
 import { PrimeReactProvider } from 'primereact/api';
 import Detail from './pages/Detail';
+import MyPage from './pages/MyPage';
+import { userStore } from './store/user-store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

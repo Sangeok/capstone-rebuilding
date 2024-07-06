@@ -17,7 +17,7 @@ export default function NavBar() {
                 {
                     userInfo.isLogin ? (
                         <div>
-                            <Link to="/logout">Logout</Link>
+                            <Link to="/mypage">MyPage</Link>
                         </div>
                     ) : (
                         <div>

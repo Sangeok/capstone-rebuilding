@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import axios from "axios";
-import { Facility } from '@prisma/client';
+import { Facility, WishList } from '@prisma/client';
 
 @Injectable()
 export class FacilityService {
@@ -56,14 +56,12 @@ export class FacilityService {
         return this.prismaService.facility.findMany();
     }
 
-    async likeFacility(facility: Facility, userId: string) {
+    async likeFacility(facilityId: string, userId: string) {
         return this.prismaService.$transaction(async (prisma) => {
-            console.log("facility");
-            console.log(facility);
     
             const updatedFacility = await prisma.facility.update({
                 where: {
-                    id: facility.id
+                    id: facilityId
                 },
                 data: {
                     LikedNumber: {
@@ -81,7 +79,7 @@ export class FacilityService {
                     },
                     facility: {
                         connect: {
-                            id: facility.id
+                            id: facilityId
                         }
                     }
                 }
@@ -91,11 +89,11 @@ export class FacilityService {
         });
     }
 
-    async unlikeFacility(facility: Facility, userId: string) {
+    async unlikeFacility(facilityId: string, userId: string) {
         return this.prismaService.$transaction(async (prisma) => {
             const updatedFacility = await prisma.facility.update({
                 where: {
-                    id: facility.id
+                    id: facilityId
                 },
                 data: {
                     LikedNumber: {
@@ -108,12 +106,30 @@ export class FacilityService {
                 where: {
                     userId_facilityId: {
                         userId,
-                        facilityId: facility.id
+                        facilityId: facilityId
                     }
                 }
             });
     
             return updatedFacility;
         });
+    }
+
+    async getWishList(wishListData: WishList[]): Promise<Facility[]> {
+        if(wishListData.length === 0) {
+            return;
+        }
+
+        const facilityIds = wishListData.map(item => item.facilityId);
+
+        const facilities = await this.prismaService.facility.findMany({
+            where: {
+              id: {
+                in: facilityIds
+              }
+            }
+        });
+
+        return facilities;
     }
 }

@@ -35,6 +35,7 @@ interface UserStoreType {
     userInfo : UserType;
     setUserInfo : (userInfo : UserType) => void;
     setMyLocation : (myLocation : string) => void;
+    setUserUnlikedFacility : (facilityId : string) => void;
 }
 
 const defaultUserState = {
@@ -61,17 +62,12 @@ export const userStore = create<UserStoreType>((set) => ({
             userInfo: { ...state.userInfo, myLocation }
         }))
     },
-    setMyLatLong: (myLat: number, myLng: number) => {
-        set((state) => ({
-            userInfo: { ...state.userInfo, myLat, myLng }
-        }))
-    },
-    setUserLikedFacility: (facility: Facility) => {
+    setUserUnlikedFacility: (facilityId: string) => {
         set((state) => ({
             userInfo: {
                 ...state.userInfo,
-                facilitys: [...state.userInfo.wishList, facility]
+                wishList: state.userInfo.wishList.filter((facility) => facility.facilityId !== facilityId)
             }
         }))
-    },
+    }
 }));

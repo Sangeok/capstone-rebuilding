@@ -22,9 +22,6 @@ function App() {
     }
   }
 
-  console.log("userFacilitys")
-  console.log(userInfo.wishList);
-
   useEffect(() => {
     getMyLocation();
   }, [])

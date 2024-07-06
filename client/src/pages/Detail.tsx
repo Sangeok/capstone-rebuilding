@@ -41,7 +41,7 @@ export default function Detail() {
             await axios.post(
                 "http://localhost:3005/facility/like",
                 {
-                    facility: facilityInfo,
+                    facilityId: facilityInfo.id,
                     userId: userInfo.id
                 },
                 {
@@ -56,6 +56,7 @@ export default function Detail() {
         }
     }
 
+    // 이 부분 hooks로 분리 가능할듯?
     const handleUnlike = async () => {
         // 찜한 목록에 없는 경우
         if(!isLiked) {
@@ -72,7 +73,7 @@ export default function Detail() {
             await axios.post(
                 "http://localhost:3005/facility/unlike",
                 {
-                    facility: facilityInfo,
+                    facilityId: facilityInfo.id,
                     userId: userInfo.id
                 },
                 {
