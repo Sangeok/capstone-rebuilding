@@ -3,18 +3,20 @@ import { Facility, userStore } from "../store/user-store";
 import { gyeonggiRegions } from "../assets/gyeonggi-regions";
 import { Dropdown } from "../components/Dropdown";
 import axios from "axios";
-import useFacilities from "../hooks/useFacilities";
+import useGetAllFacilities from "../hooks/useGetAllFacilities";
 import FacilityList from "../components/FacilitysList";
 import Pagination from "../components/Pagination";
+import SearchingModal from "../components/SearchingModal";
 
 export default function SearchingFacilityPage() {
     const [selectedCity, setSelectedCity] = useState<string>("시,군");
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
     const {
         currentFacilities,
         currentPage,
         totalPages,
         setCurrentPage
-    } = useFacilities(selectedCity);
+    } = useGetAllFacilities(selectedCity);
 
     return (
         <div className="relative flex flex-col h-screen pt-9">
@@ -32,6 +34,16 @@ export default function SearchingFacilityPage() {
                             </button>
                         ))}
                     />
+                    
+                </div>
+                <div className="flex justify-around">
+                    <div/>
+                    <div 
+                        className="cursor-pointer font-bold rounded-md shadow-xl shadow-gray-500 bg-gray w-1/14"
+                        onClick={()=>setModalOpen(true)}
+                    >
+                        Searching for name
+                    </div>
                 </div>
                 <FacilityList
                     currentFacilities={currentFacilities}
@@ -42,6 +54,10 @@ export default function SearchingFacilityPage() {
                     totalPages={totalPages}
                     onPageChange={setCurrentPage}
                 />
+                <SearchingModal
+                    open={modalOpen}
+                    setOpen={setModalOpen}
+                />  
             </div>
         </div>
     );

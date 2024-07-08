@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Facility, userStore } from '../store/user-store';
 import { getDistance } from '../utils/getDistance';
 
-export default function useFacilities(selectedCity: string) {
+export default function useGetAllFacilities(selectedCity: string) {
     const {userInfo} = userStore();
     const [facilities, setFacilities] = useState<Facility[]>([]);
     const [wantFacility, setWantFacility] = useState<Facility[]>([]);
@@ -18,10 +18,6 @@ export default function useFacilities(selectedCity: string) {
             console.error("시설 정보를 불러오는 데 실패했습니다:", error);
         }
     };
-
-    useEffect(() => {
-        fetchFacilities();
-    }, []);
 
     const handleSelectCity = (city: string) => {
         setCurrentPage(1);
@@ -45,6 +41,10 @@ export default function useFacilities(selectedCity: string) {
     };
 
     useEffect(() => {
+        fetchFacilities();
+    }, []);
+
+    useEffect(() => {
         handleSelectCity(selectedCity);
     }, [selectedCity, facilities]);
 
@@ -55,12 +55,9 @@ export default function useFacilities(selectedCity: string) {
     const totalPages = Math.ceil(wantFacility.length / facilitiesPerPage);
     
     return {
-        facilities,
-        wantFacility,
         currentFacilities,
         currentPage,
         totalPages,
-        handleSelectCity,
         setCurrentPage
     };
 }

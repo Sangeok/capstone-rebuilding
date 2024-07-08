@@ -132,4 +132,15 @@ export class FacilityService {
 
         return facilities;
     }
+
+    async getSearchFacilities(search: string): Promise<Facility[]> {
+        return this.prismaService.facility.findMany({
+            where: {
+                BIZPLC_NM: {
+                    contains: search,
+                    mode: 'insensitive', // 대소문자 구분 없이 검색
+                },
+            },
+        });
+    }
 }

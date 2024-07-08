@@ -34,4 +34,11 @@ export class FacilityController {
     async getWishList(@Body() body: { wishListData: WishList[] }) {
         return this.facilityService.getWishList(body.wishListData);
     }
+
+    @Post('search')
+    async getSearchFacilities(
+        @Body() data: { search: string }
+    ) {
+        return this.facilityService.getSearchFacilities(data.search);
+    }
 }
